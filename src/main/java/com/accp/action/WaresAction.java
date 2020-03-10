@@ -1,70 +1,57 @@
 package com.accp.action;
 
-import java.util.Date;
+import javax.annotation.Resource;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.accp.biz.AuctionBiz;
+import com.accp.biz.WaresBiz;
+import com.accp.pojo.Wares;
+import com.github.pagehelper.PageInfo;
+
+@RestController
+@RequestMapping("/api/wares")
 public class WaresAction {
-	private Integer wareid;
-	private Integer userID;
-	private String warname;
-	private Float startprice;
-	private Float floorprice;
-	private Date starttime;
-	private Date endtime;
-	private String src;
-	private String depict;
-	public Integer getWareid() {
-		return wareid;
-	}
-	public void setWareid(Integer wareid) {
-		this.wareid = wareid;
-	}
-	public Integer getUserID() {
-		return userID;
-	}
-	public void setUserID(Integer userID) {
-		this.userID = userID;
-	}
-	public String getWarname() {
-		return warname;
-	}
-	public void setWarname(String warname) {
-		this.warname = warname;
-	}
-	public Float getStartprice() {
-		return startprice;
-	}
-	public void setStartprice(Float startprice) {
-		this.startprice = startprice;
-	}
-	public Float getFloorprice() {
-		return floorprice;
-	}
-	public void setFloorprice(Float floorprice) {
-		this.floorprice = floorprice;
-	}
-	public Date getStarttime() {
-		return starttime;
-	}
-	public void setStarttime(Date starttime) {
-		this.starttime = starttime;
-	}
-	public Date getEndtime() {
-		return endtime;
-	}
-	public void setEndtime(Date endtime) {
-		this.endtime = endtime;
-	}
-	public String getSrc() {
-		return src;
-	}
-	public void setSrc(String src) {
-		this.src = src;
-	}
-	public String getDepict() {
-		return depict;
-	}
-	public void setDepict(String depict) {
-		this.depict = depict;
+	
+	@Resource
+	private WaresBiz biz;
+	
+	@Resource
+	private AuctionBiz ab;
+	
+	@PostMapping("addWare")
+	public  void addWare(Wares ware) {
+		biz.addWare(ware);
 	}
 	
+	@PostMapping("queryTerm")
+	public  PageInfo<Wares> queryTerm(Wares ware, Integer currentPage, Integer pageSize,Integer status){
+		return biz.queryByTerm(ware, currentPage, pageSize,status);
+	}
+	
+	
+	@GetMapping("queryOne/{wareid}")
+	public  Wares queryOne(@PathVariable Integer wareid){
+		Wares ware =biz.queryBiId(wareid);
+		ware.setList(ab.queryByWareid(wareid));
+		return ware;
+	}
+	
+	@GetMapping("remove/{wareid}")
+	public  String remove  (@PathVariable Integer wareid){
+		biz.removeByid(wareid);
+		return "ok";
+	}
+	
+	@PostMapping("modifyware")
+	public  void modifyware(Wares ware) {
+		biz.modifyById(ware);
+	}
+	
+	 
 }

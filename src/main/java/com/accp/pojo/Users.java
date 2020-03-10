@@ -1,8 +1,13 @@
 package com.accp.pojo;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+
+@TableName("users")
 public class Users {
-	
-	private Integer userID;
+	@TableId(type = IdType.AUTO,value = "userid")
+	private Integer userid;
 	private String uname;
 	private String upwd;
 	private String uidcard;
@@ -10,11 +15,11 @@ public class Users {
 	private String uaddress;
 	private String upost;
 	private Integer upower;
-	public Integer getUserID() {
-		return userID;
+	public Integer getUserid() {
+		return userid;
 	}
-	public void setUserID(Integer userID) {
-		this.userID = userID;
+	public void setUserid(Integer userid) {
+		this.userid = userid;
 	}
 	public String getUname() {
 		return uname;
@@ -58,5 +63,20 @@ public class Users {
 	public void setUpower(Integer upower) {
 		this.upower = upower;
 	}
+	public Users() {
+		// TODO Auto-generated constructor stub
+	}
+	public Users(String uname, String upwd, String uidcard, String uphone, String uaddress, String upost,
+			Integer upower) {
+		super();
+		this.uname = uname;
+		this.upwd = upwd;
+		this.uidcard = uidcard;
+		this.uphone = uphone;
+		this.uaddress = uaddress;
+		this.upost = upost;
+		this.upower = upower;
+	}
+	
 	
 }

@@ -1,5 +1,8 @@
 package com.accp.dao;
 
-public interface WaresMapper {
+import com.accp.pojo.Wares;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
+public interface WaresMapper extends BaseMapper<Wares>{
 
 }
